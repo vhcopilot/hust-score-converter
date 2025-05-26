@@ -8,45 +8,55 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --color-primary-teal: #68c3c0; /* Soft teal from image */
-            --color-primary-teal-dark: #50a09d; /* Darker shade for hover */
-            --color-accent-coral: #e57373; /* Muted coral/red from image */
-            --color-accent-yellow: #fff59d; /* Pale yellow from image */
-            --color-background-light: #f0f8f7; /* Very light teal/off-white for containers */
-            --color-text-dark: #2d3748; /* Tailwind gray-800 */
-            --color-text-medium: #4a5568; /* Tailwind gray-700 */
+            --color-primary-blue: #304D7D;
+            --color-primary-blue-dark: #243b60;
+            --color-accent-orange: #FDB813;
+            --color-accent-orange-dark: #eAA70F;
+            --color-background-page: #DCE1E8;
+            --color-container-bg: rgba(245, 247, 250, 0.70);
+            --color-text-dark: #212529;
+            --color-text-medium: #495057;
             --color-text-light: #ffffff;
-            --color-container-bg: rgba(255, 255, 255, 0.96); /* Slightly more opaque for readability */
+            --color-error-text: #c0392b;
+            --color-error-bg: #fdecea;
+            --color-info-border: #7ab5db;
+            --color-info-bg: #e8f4fa;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-image: url('background.jpeg');
             background-size: cover;
-            background-position: center;
+            background-position: center top;
             background-repeat: no-repeat;
             background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-            background-color: var(--color-background-light); /* Fallback if image doesn't load */
+            justify-content: center;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            background-color: var(--color-background-page);
+            transition: background-image 0.5s ease-in-out;
+            box-sizing: border-box;
         }
         .container {
-            max-width: 800px;
-            padding: 2rem;
+            max-width: 800px; /* Global max-width */
+            padding: 1.5rem;
             background-color: var(--color-container-bg);
             border-radius: 0.75rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            width: 90%;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            width: 100%;
+            box-sizing: border-box;
+            /* margin-top and margin-bottom will be effectively controlled by body padding */
         }
         .title {
-            font-size: 1.875rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--color-text-dark);
-            margin-bottom: 1.5rem;
+            color: var(--color-primary-blue);
+            margin-bottom: 1rem;
             text-align: center;
         }
         label {
@@ -55,41 +65,44 @@
         }
         select, input[type="number"] {
             border-radius: 0.5rem;
-            border: 1px solid #cbd5e0; /* Tailwind gray-300 */
+            border: 1px solid #ced4da;
             padding: 0.75rem 1rem;
             transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            background-color: var(--color-text-light); /* White background for inputs */
+            background-color: var(--color-text-light);
+            color: var(--color-text-dark);
+            width: 100%;
+            box-sizing: border-box;
         }
         select:focus, input[type="number"]:focus {
-            border-color: var(--color-primary-teal);
-            box-shadow: 0 0 0 3px rgba(104, 195, 192, 0.4); /* Teal focus ring */
+            border-color: var(--color-primary-blue);
+            box-shadow: 0 0 0 3px rgba(48, 77, 125, 0.3);
             outline: none;
         }
-        button.convert-button { /* Added a specific class for the main button */
-            background-color: var(--color-primary-teal);
-            color: var(--color-text-light);
+        button.convert-button {
+            background-color: var(--color-accent-orange);
+            color: var(--color-text-dark);
             font-weight: 600;
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem;
             transition: background-color 0.2s ease-in-out;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            border: none; /* Remove default border */
+            border: none;
         }
         button.convert-button:hover {
-            background-color: var(--color-primary-teal-dark);
+            background-color: var(--color-accent-orange-dark);
         }
         .results-container {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background-color: var(--color-background-light);
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: var(--color-info-bg);
             border-radius: 0.5rem;
-            border: 1px solid #e2e8f0; /* Tailwind gray-300 */
+            border: 1px solid var(--color-info-border);
         }
         .results-title {
-            font-size: 1.25rem;
+            font-size: 1.125rem;
             font-weight: 600;
-            color: var(--color-text-dark);
-            margin-bottom: 1rem;
+            color: var(--color-primary-blue);
+            margin-bottom: 0.75rem;
         }
         .result-item {
             margin-bottom: 0.5rem;
@@ -99,35 +112,51 @@
             color: var(--color-text-dark);
         }
         .error-message {
-            color: var(--color-accent-coral); /* Using coral for error text */
-            background-color: #fee2e2; /* Lighter red (Tailwind red-100) */
+            color: var(--color-error-text);
+            background-color: var(--color-error-bg);
             padding: 0.75rem;
             border-radius: 0.5rem;
-            border: 1px solid var(--color-accent-coral); /* Coral border */
+            border: 1px solid var(--color-error-text);
             margin-top: 1rem;
         }
         .info-message {
-            color: var(--color-primary-teal-dark); /* Darker teal for info text */
-            background-color: var(--color-background-light);
+            color: var(--color-primary-blue-dark);
+            background-color: var(--color-info-bg);
             padding: 0.75rem;
             border-radius: 0.5rem;
-            border: 1px solid var(--color-primary-teal); /* Teal border */
+            border: 1px solid var(--color-info-border);
             margin-top: 1rem;
             font-size: 0.875rem;
         }
-        /* Responsive adjustments for smaller screens */
-        @media (max-width: 768px) {
+
+        /* Desktop and larger screens */
+        @media (min-width: 768px) {
+            body {
+                padding-top: 5rem;    /* Increased desktop padding-top */
+                padding-bottom: 3rem;
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
             .container {
-                padding: 1.5rem;
-                margin-top: 1rem;
-                margin-bottom: 1rem;
+                padding: 2.5rem;
+                width: 90%; /* This means it will be 90% of viewport until it hits max-width: 800px */
+                /* On a 1200px screen, 90% = 1080px, but max-width limits to 800px */
+                /* On a 850px screen, 90% = 765px, so it will be 765px wide */
             }
             .title {
-                font-size: 1.5rem;
+                font-size: 1.875rem;
+                margin-bottom: 1.5rem;
             }
-            /* Ensure inputs stack on small screens if they were in a grid */
-            .grid.md\:grid-cols-2 { /* Targeting the specific grid */
-                grid-template-columns: repeat(1, minmax(0, 1fr));
+            .grid.md\:grid-cols-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            .results-container {
+                margin-top: 2rem;
+                padding: 1.5rem;
+            }
+            .results-title {
+                font-size: 1.25rem;
+                margin-bottom: 1rem;
             }
         }
     </style>
@@ -136,13 +165,13 @@
 
 <div class="container">
     <h1 class="title">
-        Công cụ Quy đổi Điểm Chuẩn (Dữ liệu Bảng 2024)
+        Công cụ Quy đổi Điểm Chuẩn
     </h1>
 
     <div class="grid md:grid-cols-2 gap-6 mb-6">
         <div>
             <label for="inputType" class="block mb-2 text-sm font-medium">Chọn loại điểm đầu vào:</label>
-            <select id="inputType" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <select id="inputType" class="block p-2.5">
                 <option value="THPT">Điểm Thi THPT (A00, thang 30)</option>
                 <option value="XTTN12">Điểm XTTN 1.2 (SAT, thang 1680)</option>
                 <option value="XTTN13">Điểm XTTN 1.3 (thang 100)</option>
@@ -151,7 +180,7 @@
         </div>
         <div>
             <label for="inputScore" class="block mb-2 text-sm font-medium">Nhập điểm:</label>
-            <input type="number" id="inputScore" step="0.01" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Ví dụ: 29">
+            <input type="number" id="inputScore" step="0.01" class="block p-2.5" placeholder="Ví dụ: 29">
         </div>
     </div>
 
@@ -173,6 +202,26 @@
         Đây không phải là công cụ chính thức và chỉ mang tính chất minh họa. Luôn tham khảo thông tin tuyển sinh chính thức từ ĐHBK Hà Nội.
     </div>
 </div>
+
+<script>
+    // --- JavaScript for Responsive Random Background ---
+    function setResponsiveBackground() {
+        const body = document.body;
+        const desktopImages = ['assets/1-01.png', 'assets/1-02.png'];
+        const mobileImages = ['assets/2-01.png', 'assets/2-02.png'];
+        let selectedImage;
+
+        if (window.innerWidth >= 768) { // Desktop breakpoint
+            selectedImage = desktopImages[Math.floor(Math.random() * desktopImages.length)];
+        } else { // Mobile
+            selectedImage = mobileImages[Math.floor(Math.random() * mobileImages.length)];
+        }
+        body.style.backgroundImage = `url('${selectedImage}')`;
+    }
+
+    window.addEventListener('load', setResponsiveBackground);
+    window.addEventListener('resize', setResponsiveBackground);
+</script>
 
 <script src="converter_logic.min.js"></script>
 <script src="chat_loader.min.js"></script>
