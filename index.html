@@ -7,100 +7,141 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --color-primary-teal: #68c3c0; /* Soft teal from image */
+            --color-primary-teal-dark: #50a09d; /* Darker shade for hover */
+            --color-accent-coral: #e57373; /* Muted coral/red from image */
+            --color-accent-yellow: #fff59d; /* Pale yellow from image */
+            --color-background-light: #f0f8f7; /* Very light teal/off-white for containers */
+            --color-text-dark: #2d3748; /* Tailwind gray-800 */
+            --color-text-medium: #4a5568; /* Tailwind gray-700 */
+            --color-text-light: #ffffff;
+            --color-container-bg: rgba(255, 255, 255, 0.96); /* Slightly more opaque for readability */
+        }
+
         body {
             font-family: 'Inter', sans-serif;
+            background-image: url('background.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            background-color: var(--color-background-light); /* Fallback if image doesn't load */
         }
         .container {
             max-width: 800px;
-            margin: 2rem auto;
             padding: 2rem;
-            background-color: #ffffff;
+            background-color: var(--color-container-bg);
             border-radius: 0.75rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            width: 90%;
         }
         .title {
             font-size: 1.875rem;
             font-weight: 700;
-            color: #1a202c;
+            color: var(--color-text-dark);
             margin-bottom: 1.5rem;
             text-align: center;
         }
         label {
             font-weight: 500;
-            color: #4a5568;
+            color: var(--color-text-medium);
         }
         select, input[type="number"] {
             border-radius: 0.5rem;
-            border: 1px solid #cbd5e0;
+            border: 1px solid #cbd5e0; /* Tailwind gray-300 */
             padding: 0.75rem 1rem;
             transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            background-color: var(--color-text-light); /* White background for inputs */
         }
         select:focus, input[type="number"]:focus {
-            border-color: #4299e1;
-            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+            border-color: var(--color-primary-teal);
+            box-shadow: 0 0 0 3px rgba(104, 195, 192, 0.4); /* Teal focus ring */
             outline: none;
         }
-        button {
-            background-color: #4299e1;
-            color: white;
+        button.convert-button { /* Added a specific class for the main button */
+            background-color: var(--color-primary-teal);
+            color: var(--color-text-light);
             font-weight: 600;
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem;
             transition: background-color 0.2s ease-in-out;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: none; /* Remove default border */
         }
-        button:hover {
-            background-color: #3182ce;
+        button.convert-button:hover {
+            background-color: var(--color-primary-teal-dark);
         }
         .results-container {
             margin-top: 2rem;
             padding: 1.5rem;
-            background-color: #f7fafc;
+            background-color: var(--color-background-light);
             border-radius: 0.5rem;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #e2e8f0; /* Tailwind gray-300 */
         }
         .results-title {
             font-size: 1.25rem;
             font-weight: 600;
-            color: #2d3748;
+            color: var(--color-text-dark);
             margin-bottom: 1rem;
         }
         .result-item {
             margin-bottom: 0.5rem;
-            color: #4a5568;
+            color: var(--color-text-medium);
         }
         .result-item strong {
-            color: #2d3748;
+            color: var(--color-text-dark);
         }
         .error-message {
-            color: #e53e3e;
-            background-color: #fed7d7;
+            color: var(--color-accent-coral); /* Using coral for error text */
+            background-color: #fee2e2; /* Lighter red (Tailwind red-100) */
             padding: 0.75rem;
             border-radius: 0.5rem;
-            border: 1px solid #f56565;
+            border: 1px solid var(--color-accent-coral); /* Coral border */
             margin-top: 1rem;
         }
         .info-message {
-            color: #3182ce;
-            background-color: #ebf8ff;
+            color: var(--color-primary-teal-dark); /* Darker teal for info text */
+            background-color: var(--color-background-light);
             padding: 0.75rem;
             border-radius: 0.5rem;
-            border: 1px solid #90cdf4;
+            border: 1px solid var(--color-primary-teal); /* Teal border */
             margin-top: 1rem;
             font-size: 0.875rem;
         }
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+            }
+            .title {
+                font-size: 1.5rem;
+            }
+            /* Ensure inputs stack on small screens if they were in a grid */
+            .grid.md\:grid-cols-2 { /* Targeting the specific grid */
+                grid-template-columns: repeat(1, minmax(0, 1fr));
+            }
+        }
     </style>
 </head>
-<body class="bg-gray-100">
+<body>
 
-<div class="container mx-auto p-6 bg-white shadow-xl rounded-lg mt-10">
-    <h1 class="title text-2xl font-bold text-center text-gray-700 mb-8">
+<div class="container">
+    <h1 class="title">
         Công cụ Quy đổi Điểm Chuẩn (Dữ liệu Bảng 2024)
     </h1>
 
     <div class="grid md:grid-cols-2 gap-6 mb-6">
         <div>
-            <label for="inputType" class="block mb-2 text-sm font-medium text-gray-900">Chọn loại điểm đầu vào:</label>
+            <label for="inputType" class="block mb-2 text-sm font-medium">Chọn loại điểm đầu vào:</label>
             <select id="inputType" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 <option value="THPT">Điểm Thi THPT (A00, thang 30)</option>
                 <option value="XTTN12">Điểm XTTN 1.2 (SAT, thang 1680)</option>
@@ -109,22 +150,24 @@
             </select>
         </div>
         <div>
-            <label for="inputScore" class="block mb-2 text-sm font-medium text-gray-900">Nhập điểm:</label>
+            <label for="inputScore" class="block mb-2 text-sm font-medium">Nhập điểm:</label>
             <input type="number" id="inputScore" step="0.01" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Ví dụ: 29">
         </div>
     </div>
 
     <div class="text-center mb-8">
-        <button onclick="performConversion()" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+        <button onclick="performConversion()" class="convert-button">
             Chuyển đổi
         </button>
     </div>
 
     <div id="resultsContainer" class="results-container hidden">
-        <h2 class="results-title text-xl font-semibold text-gray-800 mb-4">Kết quả quy đổi:</h2>
+        <h2 class="results-title">Kết quả quy đổi:</h2>
         <div id="resultsOutput" class="space-y-2"></div>
     </div>
+
     <div id="errorMessage" class="error-message hidden"></div>
+
     <div class="info-message">
         <strong>Lưu ý:</strong> Công cụ này sử dụng dữ liệu quy đổi dựa trên bảng tham khảo của ĐHBK Hà Nội (có thể là năm 2024).
         Đây không phải là công cụ chính thức và chỉ mang tính chất minh họa. Luôn tham khảo thông tin tuyển sinh chính thức từ ĐHBK Hà Nội.
