@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Công cụ quy đổi điểm chuẩn ĐHBK Hà Nội - Chuyển đổi giữa điểm THPT, XTTN, TSA" />
+    <meta name="keywords" content="quy đổi điểm, ĐHBK Hà Nội, THPT, XTTN, TSA, điểm chuẩn" />
     <title>Công cụ Quy đổi Điểm Chuẩn (Dữ liệu Bảng 2024)</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <style>
         :root {
-            --color-primary-blue: #304D7D;
+            --color-primary-blue: #304d7d;
             --color-primary-blue-dark: #243b60;
-            --color-accent-orange: #FDB813;
-            --color-accent-orange-dark: #eAA70F;
-            --color-background-page: #DCE1E8;
-            --color-container-bg: rgba(245, 247, 250, 0.70);
+            --color-accent-orange: #fdb813;
+            --color-accent-orange-dark: #eaa70f;
+            --color-container-bg: rgba(245, 247, 250, 0.7);
             --color-text-dark: #212529;
             --color-text-medium: #495057;
             --color-text-light: #ffffff;
@@ -24,11 +26,7 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-size: cover;
-            background-position: center top;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+            font-family: "Inter", sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -38,193 +36,474 @@
             padding-bottom: 1rem;
             padding-left: 0.5rem;
             padding-right: 0.5rem;
-            background-color: var(--color-background-page);
-            transition: background-image 0.5s ease-in-out;
             box-sizing: border-box;
+            position: relative;
+            /* For positioning asset containers */
+            overflow-x: hidden;
+            /* Prevent horizontal scroll if assets are too wide during resizing */
         }
+
+        #page-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("assets/background.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -100;
+            /* Behind all other content */
+        }
+
+        #title-asset-container {
+            position: fixed;
+            top: 20px;
+            /* Adjust as needed */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -99;
+            /* Above background, below main content container if it has a higher z-index */
+            width: 80%;
+            /* Default width */
+            max-width: 400px;
+            /* Max width for the title image */
+        }
+
+        #title-asset-container img {
+            width: 100%;
+            height: auto;
+        }
+
+        #students-asset-container {
+            position: fixed;
+            bottom: 10px;
+            /* Adjust as needed */
+            right: 10px;
+            /* Adjust as needed */
+            z-index: -99;
+            /* Above background */
+            width: 30%;
+            /* Default width */
+            max-width: 300px;
+            /* Max width for the students image */
+        }
+
+        #students-asset-container img {
+            width: 100%;
+            height: auto;
+        }
+
         .container {
-            max-width: 800px; /* Global max-width */
-            padding: 1.5rem;
+            max-width: 800px;
+            padding: 24px;
             background-color: var(--color-container-bg);
-            border-radius: 0.75rem;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
             width: 100%;
             box-sizing: border-box;
-            /* margin-top and margin-bottom will be effectively controlled by body padding */
         }
+
         .title {
-            font-size: 1.5rem;
+            font-size: 24px;
             font-weight: 700;
             color: var(--color-primary-blue);
-            margin-bottom: 1rem;
+            margin-bottom: 16px;
             text-align: center;
+            line-height: 1.3;
         }
+
         label {
             font-weight: 500;
             color: var(--color-text-medium);
+            font-size: 14px;
+            display: block;
+            margin-bottom: 8px;
         }
-        select, input[type="number"] {
-            border-radius: 0.5rem;
+
+        select,
+        input[type="number"] {
+            border-radius: 8px;
             border: 1px solid #ced4da;
-            padding: 0.75rem 1rem;
-            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            padding: 12px 16px !important;
+            font-size: 16px;
+            line-height: 1.5;
+            height: 48px;
+            transition: border-color 0.2s ease-in-out,
+                box-shadow 0.2s ease-in-out;
             background-color: var(--color-text-light);
             color: var(--color-text-dark);
             width: 100%;
             box-sizing: border-box;
+            appearance: none;
+            display: block;
+            margin: 0;
         }
-        select:focus, input[type="number"]:focus {
+        
+        select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px !important;
+            cursor: pointer;
+        }
+
+        select:focus,
+        input[type="number"]:focus {
             border-color: var(--color-primary-blue);
-            box-shadow: 0 0 0 3px rgba(48, 77, 125, 0.3);
+            box-shadow: 0 0 0 3px rgba(48, 77, 125, 0.1);
             outline: none;
         }
+
+        select:invalid,
+        input[type="number"]:invalid {
+            border-color: var(--color-error-text);
+        }
+
+        select:invalid:focus,
+        input[type="number"]:invalid:focus {
+            border-color: var(--color-error-text);
+            box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1);
+        }
+
+        select:valid,
+        input[type="number"]:valid {
+            border-color: #28a745;
+        }
+
+        select:valid:focus,
+        input[type="number"]:valid:focus {
+            border-color: var(--color-primary-blue);
+            box-shadow: 0 0 0 3px rgba(48, 77, 125, 0.1);
+        }
+
+        .invalid {
+            border-color: var(--color-error-text) !important;
+        }
+
+        .invalid:focus {
+            border-color: var(--color-error-text) !important;
+            box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1) !important;
+        }
+
         button.convert-button {
             background-color: var(--color-accent-orange);
             color: var(--color-text-dark);
             font-weight: 600;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            transition: background-color 0.2s ease-in-out;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 12px 24px;
+            border-radius: 8px;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
             border: none;
+            cursor: pointer;
+            font-size: 16px;
+            min-height: 48px;
         }
+
         button.convert-button:hover {
             background-color: var(--color-accent-orange-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.15),
+                0 3px 6px -1px rgba(0, 0, 0, 0.08);
         }
+
+        button.convert-button:active {
+            transform: translateY(0);
+        }
+
+        button.convert-button:disabled {
+            background-color: #e9ecef;
+            color: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
         .results-container {
-            margin-top: 1.5rem;
-            padding: 1rem;
+            margin-top: 24px;
+            padding: 16px;
             background-color: var(--color-info-bg);
-            border-radius: 0.5rem;
+            border-radius: 8px;
             border: 1px solid var(--color-info-border);
         }
+
         .results-title {
-            font-size: 1.125rem;
+            font-size: 18px;
             font-weight: 600;
             color: var(--color-primary-blue);
-            margin-bottom: 0.75rem;
+            margin-bottom: 12px;
+            line-height: 1.4;
         }
+
         .result-item {
-            margin-bottom: 0.5rem;
+            margin-bottom: 8px;
             color: var(--color-text-medium);
+            line-height: 1.5;
         }
+
         .result-item strong {
             color: var(--color-text-dark);
         }
+
         .error-message {
             color: var(--color-error-text);
             background-color: var(--color-error-bg);
-            padding: 0.75rem;
-            border-radius: 0.5rem;
+            padding: 12px;
+            border-radius: 8px;
             border: 1px solid var(--color-error-text);
-            margin-top: 1rem;
+            margin-top: 16px;
+            font-size: 14px;
+            line-height: 1.5;
         }
+
         .info-message {
             color: var(--color-primary-blue-dark);
             background-color: var(--color-info-bg);
-            padding: 0.75rem;
-            border-radius: 0.5rem;
+            padding: 12px;
+            border-radius: 8px;
             border: 1px solid var(--color-info-border);
-            margin-top: 1rem;
-            font-size: 0.875rem;
+            margin-top: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none;
         }
 
         /* Desktop and larger screens */
         @media (min-width: 768px) {
             body {
-                padding-top: 5rem;    /* Increased desktop padding-top */
-                padding-bottom: 3rem;
-                padding-left: 2rem;
-                padding-right: 2rem;
+                padding-top: 32px;
+                padding-bottom: 32px;
+                padding-left: 32px;
+                padding-right: 32px;
             }
+
+            #title-asset-container {
+                top: 40px;
+                max-width: 500px;
+            }
+
+            #students-asset-container {
+                bottom: 20px;
+                right: 20px;
+                width: 25%;
+                max-width: 400px;
+            }
+
             .container {
-                padding: 2.5rem;
-                width: 90%; /* This means it will be 90% of viewport until it hits max-width: 800px */
-                /* On a 1200px screen, 90% = 1080px, but max-width limits to 800px */
-                /* On a 850px screen, 90% = 765px, so it will be 765px wide */
+                padding: 40px;
+                width: 90%;
             }
+
             .title {
-                font-size: 1.875rem;
-                margin-bottom: 1.5rem;
+                font-size: 30px;
+                margin-bottom: 24px;
             }
-            .grid.md\:grid-cols-2 {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
+
             .results-container {
-                margin-top: 2rem;
-                padding: 1.5rem;
+                margin-top: 32px;
+                padding: 24px;
             }
+
             .results-title {
-                font-size: 1.25rem;
-                margin-bottom: 1rem;
+                font-size: 20px;
+                margin-bottom: 16px;
+            }
+
+            label {
+                font-size: 16px;
+            }
+        }
+
+        /* Mobile specific adjustments for assets */
+        @media (max-width: 767px) {
+            #title-asset-container {
+                top: 15px;
+                width: 70%;
+                max-width: 300px;
+            }
+
+            #students-asset-container {
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 5px;
+                right: auto;
+                width: 40%;
+                max-width: 200px;
+            }
+
+            body {
+                justify-content: flex-start;
+                padding-top: 100px;
+            }
+
+            .container {
+                margin-top: 0;
             }
         }
     </style>
 </head>
+
 <body>
+    <div id="page-background"></div>
+    <div id="title-asset-container">
+        <img src="assets/title.png" alt="Page Title" />
+    </div>
+    <div id="students-asset-container">
+        <img src="assets/students.png" alt="Students Image" />
+    </div>
+    <div class="container">
+        <h1 class="title">Công cụ Quy đổi Điểm Chuẩn</h1>
 
-<div class="container">
-    <h1 class="title">
-        Công cụ Quy đổi Điểm Chuẩn
-    </h1>
+        <form id="scoreConverterForm" novalidate>
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label for="inputType" class="block mb-2 text-sm font-medium">Chọn loại điểm đầu vào:</label>
+                    <select id="inputType" name="inputType" required aria-describedby="inputType-help">
+                        <option value="">-- Chọn loại điểm --</option>
+                        <option value="THPT">
+                            Điểm Thi THPT (A00, thang 30)
+                        </option>
+                        <option value="XTTN12">
+                            Điểm XTTN 1.2 (SAT, thang 1680)
+                        </option>
+                        <option value="XTTN13">
+                            Điểm XTTN 1.3 (thang 100)
+                        </option>
+                        <option value="TSA">Điểm ĐGTD (TSA, thang 100)</option>
+                    </select>
+                    <small id="inputType-help" class="text-xs text-gray-600 mt-1 block">
+                        Chọn loại điểm bạn muốn chuyển đổi
+                    </small>
+                </div>
+                <div>
+                    <label for="inputScore" class="block mb-2 text-sm font-medium">Nhập điểm:</label>
+                    <input type="number" id="inputScore" name="inputScore" step="0.01" min="0" max="100" required
+                        placeholder="Chọn loại điểm trước" aria-describedby="inputScore-help" />
+                    <small id="inputScore-help" class="text-xs text-gray-600 mt-1 block">
+                        Nhập điểm của bạn theo thang điểm đã chọn
+                    </small>
+                </div>
+            </div>
 
-    <div class="grid md:grid-cols-2 gap-6 mb-6">
-        <div>
-            <label for="inputType" class="block mb-2 text-sm font-medium">Chọn loại điểm đầu vào:</label>
-            <select id="inputType" class="block p-2.5">
-                <option value="THPT">Điểm Thi THPT (A00, thang 30)</option>
-                <option value="XTTN12">Điểm XTTN 1.2 (SAT, thang 1680)</option>
-                <option value="XTTN13">Điểm XTTN 1.3 (thang 100)</option>
-                <option value="TSA">Điểm ĐGTD (TSA, thang 100)</option>
-            </select>
+            <div class="text-center mb-8">
+                <button type="submit" class="convert-button">
+                    Chuyển đổi
+                </button>
+            </div>
+        </form>
+
+        <div id="resultsContainer" class="results-container hidden" aria-live="polite" role="region"
+            aria-labelledby="resultsTitle">
+            <h2 id="resultsTitle" class="results-title">Kết quả quy đổi:</h2>
+            <div id="resultsOutput" class="space-y-2"></div>
         </div>
-        <div>
-            <label for="inputScore" class="block mb-2 text-sm font-medium">Nhập điểm:</label>
-            <input type="number" id="inputScore" step="0.01" class="block p-2.5" placeholder="Ví dụ: 29">
+
+        <div id="errorMessage" class="error-message hidden" aria-live="assertive" role="alert"></div>
+
+        <div class="info-message">
+            <strong>Lưu ý:</strong> Công cụ này sử dụng dữ liệu quy đổi dựa
+            trên bảng tham khảo của ĐHBK Hà Nội (có thể là năm 2024). Đây
+            không phải là công cụ chính thức và chỉ mang tính chất minh họa.
+            Luôn tham khảo thông tin tuyển sinh chính thức từ ĐHBK Hà Nội.
         </div>
     </div>
 
-    <div class="text-center mb-8">
-        <button onclick="performConversion()" class="convert-button">
-            Chuyển đổi
-        </button>
-    </div>
+    <script src="converter_logic.min.js"></script>
+    <script src="chat_loader.min.js"></script>
+    <script>
+        // Score ranges based on the actual brackets in converter_logic.js
+        const scoreRanges = {
+            'THPT': { min: 22.15, max: 30.00, placeholder: 'Ví dụ: 29', step: '0.01' },
+            'XTTN12': { min: 1310, max: 1680, placeholder: 'Ví dụ: 1650', step: '1' },
+            'XTTN13': { min: 64.45, max: 100.00, placeholder: 'Ví dụ: 95', step: '0.01' },
+            'TSA': { min: 50.00, max: 100.00, placeholder: 'Ví dụ: 85', step: '0.01' }
+        };
 
-    <div id="resultsContainer" class="results-container hidden">
-        <h2 class="results-title">Kết quả quy đổi:</h2>
-        <div id="resultsOutput" class="space-y-2"></div>
-    </div>
+        // Handle form submission
+        document.getElementById('scoreConverterForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            performConversion();
+        });
 
-    <div id="errorMessage" class="error-message hidden"></div>
+        // Update input constraints when score type changes
+        document.getElementById('inputType').addEventListener('change', function () {
+            const inputScore = document.getElementById('inputScore');
+            const selectedType = this.value;
 
-    <div class="info-message">
-        <strong>Lưu ý:</strong> Công cụ này sử dụng dữ liệu quy đổi dựa trên bảng tham khảo của ĐHBK Hà Nội (có thể là năm 2024).
-        Đây không phải là công cụ chính thức và chỉ mang tính chất minh họa. Luôn tham khảo thông tin tuyển sinh chính thức từ ĐHBK Hà Nội.
-    </div>
-</div>
+            if (selectedType && scoreRanges[selectedType]) {
+                const range = scoreRanges[selectedType];
+                inputScore.min = range.min;
+                inputScore.max = range.max;
+                inputScore.step = range.step;
+                inputScore.placeholder = range.placeholder;
 
-<script>
-    // --- JavaScript for Responsive Random Background ---
-    function setResponsiveBackground() {
-        const body = document.body;
-        const desktopImages = ['assets/1-01.png', 'assets/1-02.png'];
-        const mobileImages = ['assets/2-01.png', 'assets/2-02.png'];
-        let selectedImage;
+                // Clear existing value if it's outside the new range
+                const currentValue = parseFloat(inputScore.value);
+                if (!isNaN(currentValue) && (currentValue < range.min || currentValue > range.max)) {
+                    inputScore.value = '';
+                }
+            } else {
+                // Reset to default when no type selected
+                inputScore.min = 0;
+                inputScore.max = 100;
+                inputScore.step = '0.01';
+                inputScore.placeholder = 'Chọn loại điểm trước';
+            }
 
-        if (window.innerWidth >= 768) { // Desktop breakpoint
-            selectedImage = desktopImages[Math.floor(Math.random() * desktopImages.length)];
-        } else { // Mobile
-            selectedImage = mobileImages[Math.floor(Math.random() * mobileImages.length)];
-        }
-        body.style.backgroundImage = `url('${selectedImage}')`;
-    }
+            // Remove validation states when type changes
+            inputScore.classList.remove('invalid');
+            inputScore.setCustomValidity('');
+        });
 
-    window.addEventListener('load', setResponsiveBackground);
-    window.addEventListener('resize', setResponsiveBackground);
-</script>
+        // Simple validation - select is valid if any option is selected
+        document.getElementById('inputType').addEventListener('change', function () {
+            if (this.value) {
+                this.classList.remove('invalid');
+            } else {
+                this.classList.add('invalid');
+            }
+        });
 
-<script src="converter_logic.min.js"></script>
-<script src="chat_loader.min.js"></script>
+        // Input validation based on actual bracket ranges
+        document.getElementById('inputScore').addEventListener('input', function () {
+            const inputType = document.getElementById('inputType').value;
+            this.setCustomValidity('');
 
+            if (inputType && scoreRanges[inputType]) {
+                const value = parseFloat(this.value);
+                const range = scoreRanges[inputType];
+
+                if (!isNaN(value)) {
+                    if (value < range.min || value > range.max) {
+                        this.setCustomValidity(`Điểm phải nằm trong khoảng ${range.min} - ${range.max}`);
+                        this.classList.add('invalid');
+                    } else {
+                        this.classList.remove('invalid');
+                    }
+                } else if (this.value.trim() !== '') {
+                    this.setCustomValidity('Vui lòng nhập số hợp lệ');
+                    this.classList.add('invalid');
+                } else {
+                    this.classList.remove('invalid');
+                }
+            } else {
+                this.classList.remove('invalid');
+            }
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            const inputScore = document.getElementById('inputScore');
+            inputScore.placeholder = 'Chọn loại điểm trước';
+        });
+    </script>
 </body>
+
 </html>
